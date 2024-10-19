@@ -1,0 +1,21 @@
+{
+  "name": "hello-app",
+  "version": "0.0.5",
+  "description": "Sample app for Altlayer Assignment",
+  "main": "app.js",
+  "scripts": {
+    "start": "node server.js",
+    "dockerize": "build/build-docker-image.sh",
+    "test": "jest --verbose"
+  },
+  "author": "Jason Nguyen",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "prom-client": "^15.1.3"
+  }
+}
