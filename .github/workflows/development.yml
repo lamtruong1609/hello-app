@@ -31,6 +31,7 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: "Run tests"
+        id: test
         run: |
           test_results=$(npm test)
           echo "test_results<<EOF" >> $GITHUB_OUTPUT
@@ -40,6 +41,10 @@ jobs:
   lint:
     name: Code standards
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      id-token: write
+      contents: read
     timeout-minutes: 10
     steps:
       - name: "Checkout repository"
@@ -58,7 +63,7 @@ jobs:
 
       - name: "Lint code"
         run: npm run lint --if-present
-      - name: "Report Issue"
+#      - name: "Report Issue"
 #        uses: ./.github/actions/create-or-update-comment
 #        with:
 #          message: test.output.test_results
@@ -72,5 +77,5 @@ jobs:
         with:
           issue-number: ${{ steps.find_pr.outputs.number }}
           body: |
-            ## ${{ inputs.message }}
+            ## ${{ steps.test.outputs.test_results }}
 
