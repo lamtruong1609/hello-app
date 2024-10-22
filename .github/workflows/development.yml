@@ -1,0 +1,62 @@
+name: Development
+
+on:
+  merge_group:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+  workflow_call:
+
+jobs:
+  test:
+    name: Test application
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: "Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "Install npm@latest"
+        run: npm i -g npm@latest
+
+      - name: "Install dependencies"
+        uses: bahmutov/npm-install@v1
+
+      - name: "Run tests"
+        run: | 
+          echo "test_results=$(npm test)" >> $GITHUB_OUTPUT
+
+  lint:
+    name: Code standards
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: "Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "Install npm@latest"
+        run: npm i -g npm@latest
+
+      - name: "Install dependencies"
+        uses: bahmutov/npm-install@v1
+
+      - name: "Lint code"
+        run: npm run lint --if-present
+      - name: "Report Issue"
+        uses: ./hello-app/.github/workflows/actions/create-or-update-comment
+        with:
+          message: test.output.test_results
+
