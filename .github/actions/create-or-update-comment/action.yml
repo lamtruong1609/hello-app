@@ -7,13 +7,15 @@ inputs:
     required: true
 
 runs:
-  - uses: jwalton/gh-find-current-pr@master
-    id: find_pr
-    with:
-      state: all
-  - uses: peter-evans/create-or-update-comment@v4
-    if: steps.find_pr.outputs.number
-    with:
-      issue-number: ${{ steps.find_pr.outputs.number }}
-      body: |
-        ## ${{ inputs.message }}
+  - using: "composite"
+    steps:
+    - uses: jwalton/gh-find-current-pr@master
+      id: find_pr
+      with:
+        state: all
+    - uses: peter-evans/create-or-update-comment@v4
+      if: steps.find_pr.outputs.number
+      with:
+        issue-number: ${{ steps.find_pr.outputs.number }}
+        body: |
+          ## ${{ inputs.message }}
