@@ -1,0 +1,81 @@
+name: Development
+
+on:
+  merge_group:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - reopened
+  workflow_call:
+
+jobs:
+  test:
+    name: Test application
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: "Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "Install npm@latest"
+        run: npm i -g npm@latest
+
+      - name: "Install dependencies"
+        uses: bahmutov/npm-install@v1
+
+      - name: "Run tests"
+        id: test
+        run: |
+          test_results=$(npm test)
+          echo "test_results<<EOF" >> $GITHUB_OUTPUT
+          echo "$test_results" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+  lint:
+    name: Code standards
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      id-token: write
+      contents: read
+    timeout-minutes: 10
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@v3
+
+      - name: "Setup node"
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: "Install npm@latest"
+        run: npm i -g npm@latest
+
+      - name: "Install dependencies"
+        uses: bahmutov/npm-install@v1
+
+      - name: "Lint code"
+        run: npm run lint --if-present
+      - name: "Report Issue"
+        uses: ./.github/actions/create-or-update-comment
+        with:
+          comment_body: "${{ steps.test.outputs.test_results }}-haha"
+#      - uses: jwalton/gh-find-current-pr@master
+#        id: find_pr
+#        with:
+#          state: all
+#
+#      - uses: peter-evans/create-or-update-comment@v4
+#        if: steps.find_pr.outputs.number
+#        with:
+#          issue-number: ${{ steps.find_pr.outputs.number }}
+#          body: |
+#            ## ${{ steps.test.outputs.test_results }}
+

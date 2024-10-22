@@ -3,9 +3,9 @@
 ## Table of Contents
 
 1. [Project Structure](#project-structure)
-1. [Installing and Running](#installing-and-running)
-1. [Docker](#docker)
-1. [Helm Chart](#helm-chart)
+2. [Installing and Running](#installing-and-running)
+3. [Docker](#docker)
+4. [Helm Chart](#helm-chart)
 
 
 ## Project Structure
