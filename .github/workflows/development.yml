@@ -37,7 +37,6 @@ jobs:
           echo "test_results<<EOF" >> $GITHUB_OUTPUT
           echo "$test_results" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-        output:
 
 
   lint:
