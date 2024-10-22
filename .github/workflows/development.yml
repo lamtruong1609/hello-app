@@ -63,19 +63,19 @@ jobs:
 
       - name: "Lint code"
         run: npm run lint --if-present
-#      - name: "Report Issue"
-#        uses: ./.github/actions/create-or-update-comment
+      - name: "Report Issue"
+        uses: ./.github/actions/create-or-update-comment
+        with:
+          message: steps.test.outputs.test_results
+#      - uses: jwalton/gh-find-current-pr@master
+#        id: find_pr
 #        with:
-#          message: test.output.test_results
-      - uses: jwalton/gh-find-current-pr@master
-        id: find_pr
-        with:
-          state: all
-
-      - uses: peter-evans/create-or-update-comment@v4
-        if: steps.find_pr.outputs.number
-        with:
-          issue-number: ${{ steps.find_pr.outputs.number }}
-          body: |
-            ## ${{ steps.test.outputs.test_results }}
+#          state: all
+#
+#      - uses: peter-evans/create-or-update-comment@v4
+#        if: steps.find_pr.outputs.number
+#        with:
+#          issue-number: ${{ steps.find_pr.outputs.number }}
+#          body: |
+#            ## ${{ steps.test.outputs.test_results }}
 
