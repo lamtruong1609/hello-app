@@ -66,7 +66,7 @@ jobs:
       - name: "Report Issue"
         uses: ./.github/actions/create-or-update-comment
         with:
-          comment_body: steps.test.outputs.test_results
+          comment_body: ${{ steps.test.outputs.test_results }}
 #      - uses: jwalton/gh-find-current-pr@master
 #        id: find_pr
 #        with:
