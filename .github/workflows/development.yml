@@ -37,6 +37,8 @@ jobs:
           echo "test_results<<EOF" >> $GITHUB_OUTPUT
           echo "$test_results" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+        output:
+
 
   lint:
     name: Code standards
@@ -66,7 +68,7 @@ jobs:
       - name: "Report Issue"
         uses: ./.github/actions/create-or-update-comment
         with:
-          message: steps.test.outputs.test_results
+          message: "steps.test.outputs.test_results"
 #      - uses: jwalton/gh-find-current-pr@master
 #        id: find_pr
 #        with:

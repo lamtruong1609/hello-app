@@ -29,5 +29,5 @@ runs:
         issue-number: ${{ steps.find_pr.outputs.number }}
         body: |
           ${{ inputs.comment_body }}
-  output:
-    pr_number: ${{ steps.find_pr.outputs.number }}
+#  output:
+#    pr_number: ${{ steps.find_pr.outputs.number }}
