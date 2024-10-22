@@ -38,7 +38,6 @@ jobs:
           echo "$test_results" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-
   lint:
     name: Code standards
     runs-on: ubuntu-latest
