@@ -31,8 +31,11 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: "Run tests"
-        run: | 
-          echo "test_results=$(npm test)" >> $GITHUB_OUTPUT
+        run: |
+          test_results=$(npm test)
+          echo "test_results<<EOF" >> $GITHUB_OUTPUT
+          echo "$test_results" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
   lint:
     name: Code standards
