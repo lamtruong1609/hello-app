@@ -1,21 +1,33 @@
-name: Update Comment
-description: Create or Update comment
-
+name: PR Comment Action
+description: Find the current PR and create or update a comment on it.
 inputs:
-  message:
-    description: Result of Test / Build / Release
+  state:
+    description: "The state of the PR to search for."
+    default: "all"
+    required: false
+  comment_body:
+    description: "The content of the comment to post."
     required: true
 
+outputs:
+  pr_number:
+    description: "The found PR number."
+
 runs:
-  - using: "composite"
-    steps:
-    - uses: jwalton/gh-find-current-pr@master
+  using: "composite"
+  steps:
+    - name: Find Current PR
+      uses: jwalton/gh-find-current-pr@master
       id: find_pr
       with:
-        state: all
-    - uses: peter-evans/create-or-update-comment@v4
+        state: ${{ inputs.state }}
+
+    - name: Create or Update Comment
       if: steps.find_pr.outputs.number
+      uses: peter-evans/create-or-update-comment@v4
       with:
         issue-number: ${{ steps.find_pr.outputs.number }}
         body: |
-          ## ${{ inputs.message }}
+          ${{ inputs.comment_body }}
+  output:
+    pr_number: ${{ steps.find_pr.outputs.number }}
