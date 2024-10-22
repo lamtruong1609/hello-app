@@ -56,7 +56,7 @@ jobs:
       - name: "Lint code"
         run: npm run lint --if-present
       - name: "Report Issue"
-        uses: ./hello-app/.github/workflows/actions/create-or-update-comment
+        uses: ./.github/actions/create-or-update-comment
         with:
           message: test.output.test_results
 
